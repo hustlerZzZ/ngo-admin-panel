@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+body {
+  font-family: "Josefin Sans", serif;
+  font-optical-sizing: auto;
+}
+
+.active {
+    color: #fff;
+    background-color: #22C55E;
+}
