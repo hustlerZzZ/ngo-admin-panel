@@ -16,7 +16,7 @@ export default function Navbar() {
           <span>Visit Website</span> <FaExternalLinkAlt className="text-xs" />
         </a>
         <Link
-          to="/blogs"
+          to="/app/blogs"
           className="bg-green-500 hover:bg-green-600 transition-all ease-in px-4 py-2 rounded-full text-white flex items-center space-x-2"
         >
           <span>New Post</span> <FaPlusCircle />

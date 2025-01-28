@@ -1,0 +1,36 @@
+import { getCookie } from "typescript-cookie";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+export const userApi = createApi({
+  reducerPath: "userApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:5000/api/v1",
+    credentials: "include",
+  }),
+  endpoints: (builder) => ({
+    signIn: builder.mutation({
+      query: (credentials: { email: string; password: string }) => ({
+        url: "/user/sign-in",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
+    verifyMe: builder.mutation({
+      query: () => {
+        const token = getCookie("jwt");
+        if (!token) {
+          throw new Error("No token found");
+        }
+        return {
+          url: "/user/verify-token",
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+      },
+    }),
+  }),
+});
+
+export const { useSignInMutation, useVerifyMeMutation } = userApi;
