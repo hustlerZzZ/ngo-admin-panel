@@ -18,7 +18,7 @@ export default function AuthCheck({ children }: { children: ReactNode }) {
         const userData = await verifyMe({}).unwrap();
         if (userData.status === "success") {
           dispatch(loggedIn());
-          dispatch(setUser(userData.user));
+          dispatch(setUser(userData.currentUser));
         } else {
           dispatch(loggedOut());
         }

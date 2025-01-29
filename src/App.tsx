@@ -1,8 +1,8 @@
-import Home from "./pages/Home.tsx";
 import Blogs from "./pages/Blogs.tsx";
 import Login from "./pages/Login.tsx";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
+import NewBlog from "./pages/NewBlog.tsx";
 import Settings from "./pages/Settings.tsx";
 import Layout from "./components/Layout.tsx";
 import AuthCheck from "./auth/AuthCheck.tsx";
@@ -26,9 +26,9 @@ function App() {
                 </ProtectedRoute>
               }
             >
-              <Route index element={<Navigate to="home" />} />
-              <Route path="home" element={<Home />} />
-              <Route path="blogs" element={<Blogs />} />
+              <Route index element={<Navigate to="blogs" />} />
+              <Route path="blogs" element={<Blogs />}></Route>
+              <Route path="blogs/create-new" element={<NewBlog />} />
               <Route path="contact-forms" element={<ContactForms />} />
               <Route path="volunteer-forms" element={<VolunteerForms />} />
               <Route path="settings" element={<Settings />} />

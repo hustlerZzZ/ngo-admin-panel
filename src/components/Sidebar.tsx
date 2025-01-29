@@ -1,26 +1,31 @@
-import { FaHome } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 import { IoMdExit } from "react-icons/io";
+import { removeCookie } from "typescript-cookie";
 import { IoIosSettings } from "react-icons/io";
 import { LiaBlogSolid } from "react-icons/lia";
 import { Link, NavLink } from "react-router-dom";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { MdVolunteerActivism } from "react-icons/md";
 import { MdOutlineContactPhone } from "react-icons/md";
+import { loggedOut } from "../redux/features/auth/authSlice.ts";
+import { logOutUser } from "../redux/features/user/userSlice.ts";
 
 export default function Sidebar() {
+  const dispatch = useDispatch();
+
+  function logMeOut() {
+    removeCookie("jwt");
+    dispatch(logOutUser());
+    dispatch(loggedOut());
+  }
+
   return (
     <div className="flex flex-col justify-between border-r border-gray-200 h-screen pt-8 w-64">
       <div>
-        <Link to="/app/home" className="flex items-center justify-center">
+        <Link to="/app/blogs" className="flex items-center justify-center">
           <img src="/HungerToHope.png" alt="logo" className="w-24 h-24" />
         </Link>
         <nav className="flex flex-col mt-10">
-          <NavLink
-            to="/app/home"
-            className="flex items-center space-x-2 py-3 px-5 hover:bg-green-500 hover:text-white transition-all ease-in"
-          >
-            <FaHome /> <span>Home</span>
-          </NavLink>
           <NavLink
             to="/app/blogs"
             className="flex items-center space-x-2 py-3 px-5 hover:bg-green-500 hover:text-white transition-all ease-in"
@@ -56,12 +61,12 @@ export default function Sidebar() {
         >
           <FaGlobeAmericas /> <span>Visit Website</span>
         </a>
-        <Link
-          to="/"
+        <button
           className="flex text-red-500 items-center space-x-2 py-3 px-5 hover:bg-red-500 hover:text-white transition-all ease-in"
+          onClick={() => logMeOut()}
         >
           <IoMdExit /> <span>Log Out</span>
-        </Link>
+        </button>
       </div>
     </div>
   );
