@@ -21,6 +21,12 @@ export default function Navbar() {
         >
           <span>New Blog</span> <FaPlusCircle />
         </Link>
+        <Link
+          to="/app/stories/create-new"
+          className="bg-green-500 hover:bg-green-600 transition-all ease-in px-4 py-2 rounded-full text-white flex items-center space-x-2"
+        >
+          <span>New Story</span> <FaPlusCircle />
+        </Link>
         <Avatar />
       </div>
     </header>

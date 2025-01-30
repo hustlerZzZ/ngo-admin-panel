@@ -6,26 +6,37 @@ export const blogApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/v1",
     credentials: "include",
+    prepareHeaders: (headers) => {
+      const token = getCookie("jwt");
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   tagTypes: ["Blogs"],
   endpoints: (builder) => ({
     createBlog: builder.mutation({
-      query: (credentials: {
+      query: ({
+        title,
+        content,
+        images,
+      }: {
         title: string;
         content: string;
         images: File[];
       }) => {
-        const token = getCookie("jwt");
-        if (!token) {
-          throw new Error("No authentication token found.");
-        }
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("content", content);
+        images.forEach((image) => {
+          formData.append(`blog`, image); // Backend should expect `images` as an array
+        });
+
         return {
           url: "/blogs/create",
           method: "POST",
-          body: credentials,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          body: formData,
         };
       },
       invalidatesTags: ["Blogs"],
@@ -38,19 +49,10 @@ export const blogApi = createApi({
       providesTags: ["Blogs"],
     }),
     deleteBlog: builder.mutation({
-      query: (id: string) => {
-        const token = getCookie("jwt");
-        if (!token) {
-          throw new Error("No authentication token found.");
-        }
-        return {
-          url: `/blogs/delete-blog/${id}`,
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-      },
+      query: (id: string) => ({
+        url: `/blogs/delete-blog/${id}`,
+        method: "DELETE",
+      }),
       invalidatesTags: ["Blogs"],
     }),
   }),

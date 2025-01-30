@@ -1,43 +1,50 @@
 import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaTrashAlt, FaUpload } from "react-icons/fa";
-import { useCreateBlogMutation } from "../redux/features/blogs/blogApiSlice.ts";
+import { FaUpload, FaTimes } from "react-icons/fa";
+import { useCreateStoryMutation } from "../redux/features/stories/storyApiSlice.ts";
 
-export default function NewBlog() {
+export default function NewStory() {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [url, setUrl] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const navigate = useNavigate();
-  const [images, setImages] = useState<File[]>([]);
-  const [createBlog, { isLoading }] = useCreateBlogMutation();
+  const [createStory, { isLoading }] = useCreateStoryMutation();
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const files = event.target.files;
-    if (files) {
-      setImages([...images, ...Array.from(files)]);
+    const file = event.target.files?.[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
     }
   }
 
-  function removeImage(index: number) {
-    setImages(images.filter((_, i) => i !== index));
+  function handleRemoveImage() {
+    setImage(null);
+    setPreview(null);
   }
 
-  async function handleCreateBlog() {
-    if (title === "" || content === "") {
-      alert("Please add the required fields");
+  async function handleSubmitStory() {
+    if (image == null) {
+      alert("Please add a image");
       return;
     }
-    const blogData = await createBlog({ title, content, images }).unwrap();
+    const storyData = await createStory({
+      title,
+      page_url: url,
+      image,
+    }).unwrap();
 
-    if (blogData.status === "success") {
-      navigate("/blogs");
+    if (storyData.status === "success") {
+      navigate("/app/stories");
     }
   }
 
   return (
     <main className="p-8">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold">New Blog</h2>
+        <h2 className="text-3xl font-bold">New Story</h2>
         <form className="mt-4">
           <div className="flex flex-col space-y-1">
             <label htmlFor="title">
@@ -48,23 +55,24 @@ export default function NewBlog() {
               placeholder="Enter your title..."
               id="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
               disabled={isLoading}
+              onChange={(e) => setTitle(e.target.value)}
               className="border px-4 py-1.5 border-gray-300 rounded-md placeholder-gray-500 focus:outline-gray-300"
               required
             />
           </div>
+
           <div className="flex flex-col space-y-1 mt-2">
-            <label htmlFor="content">
-              Content<span className="ml-0.5 text-green-600">*</span>
+            <label htmlFor="url">
+              Page Url<span className="ml-0.5 text-green-600">*</span>
             </label>
-            <textarea
-              placeholder="Enter amazing content..."
-              id="content"
-              rows={10}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+            <input
+              type="text"
+              placeholder="Enter your title..."
+              id="url"
+              value={url}
               disabled={isLoading}
+              onChange={(e) => setUrl(e.target.value)}
               className="border px-4 py-1.5 border-gray-300 rounded-md placeholder-gray-500 focus:outline-gray-300"
               required
             />
@@ -76,54 +84,48 @@ export default function NewBlog() {
                 <FaUpload className="text-2xl mb-2" />
                 <p className="text-sm">Click to upload or drag & drop</p>
                 <p className="text-xs text-gray-400">
-                  Multiple images supported
+                  Only one image supported
                 </p>
               </div>
               <input
                 type="file"
-                name="blog"
+                name="story"
                 className="hidden"
                 accept="image/*"
-                multiple
                 onChange={handleFileChange}
               />
             </label>
-
-            {images.length > 0 && (
-              <div className="mt-4">
-                <h3 className="text-sm font-semibold mb-2">Preview:</h3>
-                <div className="grid grid-cols-3 gap-2">
-                  {images.map((file, index) => (
-                    <div key={index} className="relative group">
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt="preview"
-                        className="w-full h-24 object-cover rounded-lg border"
-                      />
-                      <button
-                        onClick={() => removeImage(index)}
-                        className="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full text-xs opacity-0 group-hover:opacity-100 transition"
-                      >
-                        <FaTrashAlt />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
+
+          {preview && (
+            <div className="mt-4 relative w-32 h-32">
+              <img
+                src={preview}
+                alt="Selected Preview"
+                className="w-full h-full rounded-lg object-cover border border-gray-300"
+              />
+              <button
+                onClick={handleRemoveImage}
+                type="button"
+                className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+              >
+                <FaTimes />
+              </button>
+            </div>
+          )}
         </form>
       </div>
+
       <div className="flex space-x-4">
         <button
+          onClick={() => navigate("/app/stories")}
           className="bg-red-500 hover:bg-red-600 transition-all ease-in duration-100 text-white px-4 py-1 rounded-full"
-          onClick={() => navigate("/app/blogs")}
         >
           Cancel
         </button>
         <button
           type="submit"
-          onClick={handleCreateBlog}
+          onClick={handleSubmitStory}
           className="bg-green-500 hover:bg-green-600 transition-all ease-in duration-100 text-white px-4 py-1 rounded-full"
         >
           Submit

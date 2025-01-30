@@ -5,6 +5,7 @@ import { userApi } from "./features/user/userApiSlice.ts";
 import { blogApi } from "./features/blogs/blogApiSlice.ts";
 import { contactApi } from "./features/contact-forms/contactApiSlice.ts";
 import { volunteerApi } from "./features/volunteer-forms/volunteerApiSlice.ts";
+import { storyApi } from "./features/stories/storyApiSlice.ts";
 
 export const store = configureStore({
   reducer: {
@@ -14,13 +15,15 @@ export const store = configureStore({
     [blogApi.reducerPath]: blogApi.reducer,
     [contactApi.reducerPath]: contactApi.reducer,
     [volunteerApi.reducerPath]: volunteerApi.reducer,
+    [storyApi.reducerPath]: storyApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(userApi.middleware)
       .concat(blogApi.middleware)
       .concat(contactApi.middleware)
-      .concat(volunteerApi.middleware),
+      .concat(volunteerApi.middleware)
+      .concat(storyApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

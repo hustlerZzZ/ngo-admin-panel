@@ -33,6 +33,12 @@ export default function Sidebar() {
             <LiaBlogSolid /> <span>Blogs</span>
           </NavLink>
           <NavLink
+            to="/app/stories"
+            className="flex items-center space-x-2 py-4 px-5 hover:bg-green-500 hover:text-white transition-all ease-in"
+          >
+            <LiaBlogSolid /> <span>Stories</span>
+          </NavLink>
+          <NavLink
             to="/app/volunteer-forms"
             className="flex items-center space-x-2 py-3 px-5 hover:bg-green-500 hover:text-white transition-all ease-in"
           >

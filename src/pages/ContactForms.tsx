@@ -19,5 +19,46 @@ export default function ContactForms() {
     );
   }
 
-  return <main>ContactForms</main>;
+  return (
+    <main className="mt-8">
+      <table className="w-full outline">
+        <thead>
+          <tr className="grid grid-cols-6 justify-between bg-black text-white px-4 py-2">
+            <td>S.No</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Subject</td>
+            <td>Message</td>
+            <td>Submission Date</td>
+          </tr>
+        </thead>
+        <tbody>
+          {data.contactForms.map(
+            (
+              data: {
+                name: string;
+                email: string;
+                subject: string;
+                message: string;
+                created_at: string;
+              },
+              i: number,
+            ) => (
+              <tr
+                key={i}
+                className="grid grid-cols-6 justify-between bg-gray-200  px-4 py-2"
+              >
+                <td>{i + 1}.</td>
+                <td>{data.name}</td>
+                <td>{data.email}</td>
+                <td>{data.subject}</td>
+                <td>{data.message}</td>
+                <td>{new Date(data.created_at).toDateString()}</td>
+              </tr>
+            ),
+          )}
+        </tbody>
+      </table>
+    </main>
+  );
 }
