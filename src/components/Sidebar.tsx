@@ -20,7 +20,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="flex flex-col justify-between border-r border-gray-200 h-screen pt-8 w-64">
+    <div className="flex flex-col justify-between border-r border-gray-200 h-screen pt-8 w-96">
       <div>
         <Link to="/app/blogs" className="flex items-center justify-center">
           <img src="/HungerToHope.png" alt="logo" className="w-24 h-24" />
@@ -28,7 +28,7 @@ export default function Sidebar() {
         <nav className="flex flex-col mt-10">
           <NavLink
             to="/app/blogs"
-            className="flex items-center space-x-2 py-3 px-5 hover:bg-green-500 hover:text-white transition-all ease-in"
+            className="flex items-center space-x-2 py-4 px-5 hover:bg-green-500 hover:text-white transition-all ease-in"
           >
             <LiaBlogSolid /> <span>Blogs</span>
           </NavLink>
