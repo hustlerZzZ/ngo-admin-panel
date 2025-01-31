@@ -13,7 +13,7 @@ export default function ContactForms() {
           Chief we are waiting for contact form's to submit!
         </h3>
         <div className="flex items-center justify-center">
-          <img src="/public/contact.svg" alt="img" className="h-96 w-96" />
+          <img src="/contact.svg" alt="img" className="h-96 w-96" />
         </div>
       </div>
     );

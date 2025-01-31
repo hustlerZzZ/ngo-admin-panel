@@ -21,7 +21,7 @@ export default function Story() {
           Time to add some fresh stories chief!
         </h3>
         <div className="flex items-center justify-center">
-          <img src="/public/blog.svg" alt="img" className="h-96 w-96" />
+          <img src="/blog.svg" alt="img" className="h-96 w-96" />
         </div>
       </div>
     );

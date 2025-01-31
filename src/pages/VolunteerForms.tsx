@@ -13,7 +13,7 @@ export default function VolunteerForms() {
           Chief we are waiting for volunteer's to submit!
         </h3>
         <div className="flex items-center justify-center">
-          <img src="/public/form.svg" alt="img" className="h-96 w-96" />
+          <img src="/form.svg" alt="img" className="h-96 w-96" />
         </div>
       </div>
     );
