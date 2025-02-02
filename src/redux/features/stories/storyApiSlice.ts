@@ -1,4 +1,3 @@
-import { getCookie } from "typescript-cookie";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const storyApi = createApi({
@@ -6,13 +5,6 @@ export const storyApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://api.hungertohope.org/api/v1",
     credentials: "include",
-    prepareHeaders: (headers) => {
-      const token = getCookie("jwt");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
   }),
   tagTypes: ["Story"],
   endpoints: (builder) => ({

@@ -1,4 +1,3 @@
-import { getCookie } from "typescript-cookie";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const userApi = createApi({
@@ -17,48 +16,27 @@ export const userApi = createApi({
     }),
     verifyMe: builder.mutation({
       query: () => {
-        const token = getCookie("jwt");
-        if (!token) {
-          throw new Error("No token found");
-        }
         return {
           url: "/user/verify-token",
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         };
       },
     }),
     updateMe: builder.mutation({
       query: (credentials: { name: string; email: string }) => {
-        const token = getCookie("jwt");
-        if (!token) {
-          throw new Error("No token found");
-        }
         return {
           url: "/user/update-me",
           method: "PUT",
           body: credentials,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         };
       },
     }),
     updatePassword: builder.mutation({
       query: (credentials: { old_password: string; new_password: string }) => {
-        const token = getCookie("jwt");
-        if (!token) {
-          throw new Error("No token found");
-        }
         return {
           url: "/user/update-password",
           method: "PUT",
           body: credentials,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         };
       },
     }),
